@@ -25,6 +25,7 @@ function renderChoices(correctAnswer: string, incorrectAnswers: string[]): void 
     const liElement = document.createElement('li') as HTMLLIElement;
     const buttonElement = document.createElement('button') as HTMLButtonElement;
     buttonElement.innerHTML = choice;
+    buttonElement.className = 'rounded-lg p-2 border-gray-800 border-2';
 
     buttonElement.addEventListener('click', onChoiceSelected);
 
