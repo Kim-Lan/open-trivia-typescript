@@ -1,10 +1,16 @@
 import './css/style.css'
-import { shuffleArray } from './util.ts'
+import { shuffleArray, escapeHTML } from './util.ts'
 
 let currentCorrectAnswer: string = '';
 
 function init(): void {
   fetchNewQuestion();
+
+  const nextQuestionButton = document.getElementById('nextQuestionButton') as HTMLButtonElement;
+  nextQuestionButton.addEventListener('click', (event: Event) => {
+    event.preventDefault();
+    fetchNewQuestion();
+  });
 }
 
 function renderQuestion(question: string): void {
@@ -25,7 +31,7 @@ function renderChoices(correctAnswer: string, incorrectAnswers: string[]): void 
     const liElement = document.createElement('li') as HTMLLIElement;
     const buttonElement = document.createElement('button') as HTMLButtonElement;
     buttonElement.innerHTML = choice;
-    buttonElement.className = 'rounded-lg p-2 border-gray-800 border-2';
+    buttonElement.className = 'rounded-lg p-2 border-gray-800 border-2 hover:bg-gray-400 active:bg-gray-600';
 
     buttonElement.addEventListener('click', onChoiceSelected);
 
@@ -36,14 +42,12 @@ function renderChoices(correctAnswer: string, incorrectAnswers: string[]): void 
 
 function onChoiceSelected(event: Event): void {
   const target: HTMLElement = event.target;
-  const selectedChoice: string = target.textContent;
+  const selectedChoice: string = target.innerHTML;
   
   if (selectedChoice === currentCorrectAnswer) {
-    target.classList.add('correct');
-    console.log('Correct!');
+    target.classList.add('bg-green-500');
   } else {
-    target.classList.add('incorrect');
-    console.log('Incorrect');
+    target.classList.add('bg-red-500');
   }
 }
 
@@ -53,7 +57,6 @@ function fetchNewQuestion(): void {
       return response.json();
     })
     .then(function (data) {
-      console.log(data.results[0]);
       renderQuestion(data.results[0].question);
       renderChoices(data.results[0].correct_answer, data.results[0].incorrect_answers);
     });
