@@ -41,7 +41,7 @@ function renderChoices(correctAnswer: string, incorrectAnswers: string[]): void 
 }
 
 function onChoiceSelected(event: Event): void {
-  const target: EventTarget = event.target;
+  const target = event.target as HTMLElement;
   const selectedChoice: string = target.innerHTML;
   
   if (selectedChoice === currentCorrectAnswer) {
