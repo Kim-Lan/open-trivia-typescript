@@ -1,5 +1,5 @@
 import './css/style.css'
-import { shuffleArray, escapeHTML } from './util.ts'
+import { shuffleArray } from './util.ts'
 
 let currentCorrectAnswer: string = '';
 
@@ -41,7 +41,7 @@ function renderChoices(correctAnswer: string, incorrectAnswers: string[]): void 
 }
 
 function onChoiceSelected(event: Event): void {
-  const target: HTMLElement = event.target;
+  const target: EventTarget = event.target;
   const selectedChoice: string = target.innerHTML;
   
   if (selectedChoice === currentCorrectAnswer) {
